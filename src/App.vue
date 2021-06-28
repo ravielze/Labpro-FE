@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container style="margin: 25px">
     <Navbar />
     <el-main>
       <router-view />
@@ -12,17 +12,6 @@ import Navbar from "./components/Navbar.vue";
 export default {
   components: {
     Navbar,
-  },
-  data() {
-    return {};
-  },
-  methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
   },
 };
 </script>
