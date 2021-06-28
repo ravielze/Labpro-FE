@@ -3,10 +3,8 @@
     <el-menu
       default-active="1"
       class="el-menu-vertical-demo nav"
-      @open="handleOpen"
-      @close="handleClose"
-      collapse="true"
-      router="true"
+      :collapse="true"
+      :router="true"
     >
       <div class="logo-container">
         <img class="logo" alt="Dorayaki" src="../assets/logo.png" />
@@ -19,7 +17,7 @@
         <i class="el-icon-menu"></i>
         <template #title>About</template>
       </el-menu-item>
-      <el-menu-item index="3">
+      <el-menu-item index="/dorayaki">
         <i class="el-icon-document"></i>
         <template #title>My Dorayaki</template>
       </el-menu-item>
