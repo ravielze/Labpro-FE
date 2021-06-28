@@ -1,9 +1,14 @@
 <template>
   <div class="home">
-    <p>this is home</p>
+    <Cards />
   </div>
 </template>
 
 <script>
-export default {};
+import Cards from "../components/Cards.vue";
+export default {
+  components: {
+    Cards,
+  },
+};
 </script>
