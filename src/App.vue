@@ -1,8 +1,10 @@
 <template>
-  <el-container style="margin: 25px">
+  <el-container class="main-container">
     <Navbar />
-    <el-main>
-      <router-view />
+    <el-main style="margin-right: 0px; padding-right: 0px">
+      <el-scrollbar>
+        <router-view />
+      </el-scrollbar>
     </el-main>
   </el-container>
 </template>
@@ -23,8 +25,12 @@ $text-color: #e1e5ee;
 $text-glowing-color: #c7ccdb;
 //storage: 767B91
 
-* {
+body {
   background: $bg-color;
+}
+
+.main-container {
+  margin: 20px 0px 0px 0px;
 }
 
 #app {

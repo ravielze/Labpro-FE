@@ -1,25 +1,23 @@
 <template>
   <div class="home">
-    <el-scrollbar max-height="90vh">
-      <div class="container" style="padding-left: 20px">
-        <el-row type="flex" style="text-align: center">
-          <el-col :span="64" v-for="o in 25" :key="o">
-            <Card style="margin: 10px" />
-          </el-col>
-        </el-row>
-        <el-pagination
-          background
-          layout="prev, pager, next"
-          :page-count="totalPage"
-          :hide-on-single-page="isSinglePage"
-          :current-page="currentPage"
-          :page-size="25"
-          @current-change="pageChange"
-          class="pagination"
-        >
-        </el-pagination>
-      </div>
-    </el-scrollbar>
+    <div class="container" style="padding-left: 20px">
+      <el-row type="flex" style="text-align: center">
+        <el-col :span="64" v-for="o in 10" :key="o">
+          <Card style="margin: 10px" />
+        </el-col>
+      </el-row>
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :page-count="totalPage"
+        :hide-on-single-page="isSinglePage"
+        :current-page="currentPage"
+        :page-size="10"
+        @current-change="pageChange"
+        class="pagination"
+      >
+      </el-pagination>
+    </div>
   </div>
 </template>
 

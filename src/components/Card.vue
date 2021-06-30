@@ -1,9 +1,9 @@
 <template>
-  <el-card class="card" shadow="always">
+  <el-card class="card" shadow="always" @click="handleClick">
     <img :src="image" />
     <div :style="{ position: 'inherit' }">
       <p class="content-title">{{ name }}</p>
-      <div class="bottom">
+      <div class="card-container">
         <p class="content description">{{ processedDescription }}</p>
         <p class="content">{{ price }}</p>
         <p class="content">{{ stock }}</p>
@@ -21,8 +21,13 @@ export default {
   computed: {
     processedDescription() {
       return _.truncate(this.description, {
-        length: 250,
+        length: 150,
       });
+    },
+  },
+  methods: {
+    handleClick() {
+      console.log("click");
     },
   },
   props: {
@@ -58,7 +63,6 @@ export default {
 
 <style lang="scss" scoped>
 * {
-  background: white;
   text-align: center;
 }
 
@@ -73,6 +77,13 @@ img {
   word-wrap: normal;
   max-height: 600px;
   max-width: 300px;
+  background: #767b91;
+  cursor: none;
+}
+
+.card:hover {
+  cursor: pointer;
+  background: #a0a4b3;
 }
 
 .content {
