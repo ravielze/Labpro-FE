@@ -9,6 +9,7 @@
                 class="input"
                 maxlength="256"
                 show-word-limit
+                :readonly="readOnly"
             />
         </div>
         <div class="section">
@@ -21,6 +22,7 @@
                 type="textarea"
                 maxlength="1024"
                 show-word-limit
+                :readonly="readOnly"
             />
         </div>
         <div class="section">
@@ -31,6 +33,7 @@
                 class="input"
                 maxlength="128"
                 show-word-limit
+                :readonly="readOnly"
             />
         </div>
         <div class="section">
@@ -43,9 +46,10 @@
                 type="textarea"
                 maxlength="1024"
                 show-word-limit
+                :readonly="readOnly"
             />
         </div>
-        <div class="section">
+        <div class="section" v-if="!readOnly">
             <span>Image:</span>
             <FileButton v-model="file" class="button" />
         </div>
@@ -57,7 +61,7 @@
             <span>Updated At:</span>
             <el-input v-model="updated_at" class="input" readonly />
         </div>
-        <div class="section submit">
+        <div class="section submit" v-if="!readOnly">
             <el-button type="success" round class="submit" v-if="formData.id != 0" @click="onSubmit"
                 >Update</el-button
             >
@@ -85,6 +89,10 @@ export default {
             default() {
                 return {};
             },
+        },
+        readOnly: {
+            type: Boolean,
+            default: false,
         },
     },
     watch: {

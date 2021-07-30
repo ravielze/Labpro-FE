@@ -29,8 +29,6 @@
                 placeholder="Jln. Gang Tuah No. 666"
                 v-model="formData.street"
                 class="input"
-                rows="4"
-                type="textarea"
                 maxlength="256"
                 show-word-limit
             />

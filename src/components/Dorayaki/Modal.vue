@@ -6,7 +6,7 @@
         close-on-press-escape
         close-on-click-modal
     >
-        <Dorayaki :rawData="dorayaki" @close="$emit('close')" />
+        <Dorayaki :rawData="dorayaki" @close="$emit('close')" :readOnly="readOnly" />
     </el-dialog>
 </template>
 
@@ -20,6 +20,10 @@ export default {
     props: {
         dorayakiId: {
             type: Number,
+        },
+        readOnly: {
+            type: Boolean,
+            default: false,
         },
     },
     data() {

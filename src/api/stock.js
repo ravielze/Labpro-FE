@@ -1,0 +1,20 @@
+import API from "./base";
+
+const UpdateStock = (id_shop, id_dorayaki, stock) => {
+    id_shop = parseInt(id_shop);
+    return API.patch("/stock", { id_shop, id_dorayaki, stock }).then((resp) => resp.data.data);
+};
+
+const GetSoldByShop = (id_shop) => {
+    id_shop = parseInt(id_shop);
+    return API.get("/stock/" + id_shop).then((resp) => resp.data.data);
+};
+
+const TransferStock = (from_shop_id, to_shop_id, id_dorayaki, stock) => {
+    from_shop_id = parseInt(from_shop_id);
+    to_shop_id = parseInt(to_shop_id);
+    id_dorayaki = parseInt(id_dorayaki);
+    return API.post("/stock", { from_shop_id, to_shop_id, id_dorayaki, stock });
+};
+
+export { UpdateStock, GetSoldByShop, TransferStock };
