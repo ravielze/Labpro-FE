@@ -10,11 +10,11 @@ const GetSoldByShop = (id_shop) => {
     return API.get("/stock/" + id_shop).then((resp) => resp.data.data);
 };
 
-const TransferStock = (from_shop_id, to_shop_id, id_dorayaki, stock) => {
-    from_shop_id = parseInt(from_shop_id);
-    to_shop_id = parseInt(to_shop_id);
+const TransferStock = (id_from_shop, id_to_shop, id_dorayaki, stock) => {
+    id_from_shop = parseInt(id_from_shop);
+    id_to_shop = parseInt(id_to_shop);
     id_dorayaki = parseInt(id_dorayaki);
-    return API.post("/stock", { from_shop_id, to_shop_id, id_dorayaki, stock });
+    return API.post("/stock/transfer", { id_from_shop, id_to_shop, id_dorayaki, amount: stock });
 };
 
 export { UpdateStock, GetSoldByShop, TransferStock };

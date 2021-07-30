@@ -29,12 +29,6 @@
                             @click.prevent="infoDorayaki(props.row.id)"
                         />
                         <el-button
-                            icon="el-icon-ship"
-                            type="warning"
-                            circle
-                            @click.prevent="transfer(props.row.id)"
-                        />
-                        <el-button
                             type="danger"
                             icon="el-icon-close"
                             circle
@@ -50,15 +44,23 @@
             :dorayakiId="dorayakiId"
             readOnly
         />
+        <TSM
+            v-if="isTransferStockModalVisible"
+            @close="onCloseViewTransferStock"
+            :shopId="shopId"
+            :dorayakiId="dorayakiId"
+        />
     </div>
 </template>
 
 <script>
-import { UpdateStock } from "api/stock";
+import { UpdateStock, GetSoldByShop } from "api/stock";
 import Modal from "components/Dorayaki/Modal.vue";
+import TSM from "components/Shop/TransferStockModal.vue";
 export default {
     components: {
         Modal,
+        TSM,
     },
     data() {
         return {
@@ -66,28 +68,32 @@ export default {
             shopId: 0,
             dorayakiId: 0,
             isViewDorayakiModalVisible: false,
-            dorayakis: [
-                {
-                    created_at: "14-10-2021 19:32:40",
-                    description: "Dorayaki isi boba",
-                    id: 1,
-                    name: "Doraboba",
-                    stock: 10,
-                    taste_description: "manis asin aneh banget gak sih?",
-                    taste_name: "Manis Asin",
-                    updated_at: "14-10-2021 19:32:40",
-                },
-            ],
+            isTransferStockModalVisible: false,
+            dorayakis: [],
             isModalVisible: false,
         };
     },
     methods: {
+        reload() {
+            GetSoldByShop(this.shopId).then((resp) => {
+                this.dorayakis = resp;
+            });
+        },
         infoDorayaki(id) {
             this.dorayakiId = id;
             this.isViewDorayakiModalVisible = true;
         },
+        transfer(id) {
+            this.dorayakiId = id;
+            this.isTransferStockModalVisible = true;
+        },
         onCloseViewDorayakiModal() {
             this.isViewDorayakiModalVisible = false;
+            this.reload();
+        },
+        onCloseViewTransferStock() {
+            this.isTransferStockModalVisible = false;
+            this.reload();
         },
         modifyStock(id, stock) {
             UpdateStock(this.shopId, id, stock)
@@ -104,7 +110,7 @@ export default {
                     });
                 })
                 .then(() => {
-                    //TODO RELOAD
+                    this.reload();
                 });
         },
         removeStock(id) {
@@ -113,6 +119,7 @@ export default {
     },
     mounted() {
         this.shopId = parseInt(this.$route.params.id);
+        this.reload();
     },
 };
 </script>

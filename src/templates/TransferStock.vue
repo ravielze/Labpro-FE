@@ -1,6 +1,18 @@
 <template>
     <div class="container">
         <div class="section">
+            <span>To Shop:</span>
+            <el-select v-model="toShopId" filterable placeholder="Select">
+                <el-option
+                    v-for="item in shopOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                >
+                </el-option>
+            </el-select>
+        </div>
+        <div class="section">
             <span>Dorayaki:</span>
             <el-select v-model="dorayakiId" filterable placeholder="Select">
                 <el-option
@@ -23,8 +35,8 @@
 </template>
 
 <script>
-import { GetAllDorayaki } from "api/dorayaki";
-import { GetSoldByShop, UpdateStock } from "api/stock";
+import { GetAllShop } from "api/shop";
+import { GetSoldByShop, TransferStock } from "api/stock";
 export default {
     props: {
         shopId: {
@@ -35,54 +47,48 @@ export default {
     data() {
         return {
             dorayakiId: undefined,
+            toShopId: undefined,
             stock: 1,
-            allDorayaki: [],
             soldDorayaki: [],
+            allShops: [],
             options: [],
+            shopOptions: [],
         };
     },
     mounted() {
-        GetAllDorayaki(0)
-            .then((resp) => (this.allDorayaki = resp.dorayakis))
-            .then(() => {
-                GetSoldByShop(this.shopId)
-                    .then((resp) => {
-                        this.soldDorayaki = resp;
-                        const mapping = {};
+        GetSoldByShop(this.shopId)
+            .then((resp) => {
+                this.soldDorayaki = resp;
+                const mapping = {};
 
-                        this.allDorayaki.forEach((x) => {
-                            mapping[x.id] = x.name;
-                        });
+                this.soldDorayaki.forEach((x) => {
+                    mapping[x.id] = x.name;
+                });
 
-                        this.soldDorayaki.forEach((x) => {
-                            mapping[x.id] = "";
-                        });
-                        const opt = [];
-                        for (var i in mapping) {
-                            if (
-                                mapping[i] === "" ||
-                                mapping[i] === undefined ||
-                                mapping[i] === null
-                            ) {
-                                continue;
-                            }
-                            opt.push({
-                                label: mapping[i],
-                                value: i,
-                            });
-                        }
-                        this.options = opt;
-                    })
-                    .catch((err) => {
-                        var msg = "unknown error";
-                        if (err.response.status == 422) {
-                            msg = err.response.data.error[0].message;
-                        }
-                        this.$notify.error({
-                            title: "Error",
-                            message: msg,
+                const opt = [];
+                for (var i in mapping) {
+                    if (mapping[i] === "" || mapping[i] === undefined || mapping[i] === null) {
+                        continue;
+                    }
+                    opt.push({
+                        label: mapping[i],
+                        value: i,
+                    });
+                }
+                this.options = opt;
+
+                GetAllShop(0).then((resp) => {
+                    this.allShops = resp.shops;
+                    console.log(resp);
+                    const opt = [];
+                    this.allShops.forEach((x) => {
+                        opt.push({
+                            label: x.name,
+                            value: x.id,
                         });
                     });
+                    this.shopOptions = opt;
+                });
             })
             .catch((err) => {
                 var msg = "unknown error";
@@ -97,7 +103,7 @@ export default {
     },
     methods: {
         onSubmit() {
-            UpdateStock(this.shopId, parseInt(this.dorayakiId), this.stock)
+            TransferStock(this.shopId, this.toShopId, parseInt(this.dorayakiId), this.stock)
                 .catch((err) => {
                     var msg = "unknown error";
                     if (err.response.status == 422) {
