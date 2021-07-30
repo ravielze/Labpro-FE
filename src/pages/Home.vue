@@ -1,14 +1,6 @@
 <template>
-  <div class="home">
-    <Cards />
-  </div>
+	<div class="home"></div>
 </template>
 
 <script>
-import Cards from "../components/Cards.vue";
-export default {
-  components: {
-    Cards,
-  },
-};
 </script>
